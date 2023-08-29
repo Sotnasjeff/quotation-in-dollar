@@ -13,7 +13,8 @@ import (
 )
 
 const (
-	INSERT_INTO = "INSERT INTO quotation(code, codein, name, high, low, varbid, pctchange, bid, ask, timestamp, created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?)"
+	CREATE_TABLE = "CREATE TABLE IF NOT EXISTS quotation(code TEXT, codein TEXT, name TEXT, high TEXT, low TEXT, varbid TEXT, pctchange TEXT, bid TEXT, ask TEXT, timestamp TEXT, created_at TEXT)"
+	INSERT_INTO  = "INSERT INTO quotation(code, codein, name, high, low, varbid, pctchange, bid, ask, timestamp, created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?)"
 )
 
 type QuotationResponse struct {
@@ -48,6 +49,10 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	db, err := databaseConnection()
 	if err != nil {
 		log.Fatalf("Error in connecting to Database %v", err)
+	}
+	err = createTable(db)
+	if err != nil {
+		log.Fatalf("Error in creating table: %v", err)
 	}
 	defer db.Close()
 	req, err := quotationDollarHttpClient(ctx)
@@ -96,6 +101,11 @@ func databaseConnection() (*sql.DB, error) {
 		return nil, err
 	}
 	return db, nil
+}
+
+func createTable(db *sql.DB) error {
+	_, err := db.Exec(CREATE_TABLE)
+	return err
 }
 
 func insertIntoDatabase(ctx context.Context, db *sql.DB, quotation *QuotationResponse) error {
