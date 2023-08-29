@@ -8,3 +8,5 @@
 - [x] O client.go terá que salvar a cotação atual em um arquivo "cotacao.txt" no formato: Dólar: {valor}  
 
 OBS: Somente os timeouts que não consegui no tempo esperado
+
+**Corrigido o problema da tabela no sqlite
