@@ -136,7 +136,7 @@ func insertIntoDatabase(ctx context.Context, db *sql.DB, quotation *QuotationRes
 	case <-ctx.Done():
 		log.Fatalf("Timeout for inserting db")
 		return err
-	case <-time.After(10 * time.Millisecond):
+	case <-time.After(10 * time.Nanosecond):
 		return nil
 	}
 }
