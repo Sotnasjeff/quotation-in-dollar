@@ -8,3 +8,5 @@
 - [x] O client.go terá que salvar a cotação atual em um arquivo "cotacao.txt" no formato: Dólar: {valor}  
 
 OBS: Somente os timeouts que não consegui no tempo esperado
+
+OBS 2: Mudei para Nanoseconds e realmente funcionou, gostaria de compreender mais essas medidas de tempo, por que confesso que ficou bem confuso pra mim.
