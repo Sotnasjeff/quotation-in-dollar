@@ -9,4 +9,6 @@
 
 OBS: Somente os timeouts que não consegui no tempo esperado
 
-OBS 2: Mudei para Nanoseconds e realmente funcionou, gostaria de compreender mais essas medidas de tempo, por que confesso que ficou bem confuso pra mim.
+**Corrigido o problema da tabela no sqlite
+
+***Mudei para Nanoseconds e realmente funcionou, gostaria de compreender mais essas medidas de tempo, por que confesso que ficou bem confuso pra mim.
