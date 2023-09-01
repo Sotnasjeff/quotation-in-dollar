@@ -12,3 +12,5 @@ OBS: Somente os timeouts que não consegui no tempo esperado
 **Corrigido o problema da tabela no sqlite
 
 ***Mudei para Nanoseconds e realmente funcionou, gostaria de compreender mais essas medidas de tempo, por que confesso que ficou bem confuso pra mim.
+
+****Compreendi, o time.After garante que se atingir os 10 milissegundos ou mais ele retorne com sucesso, tirei o select case e reaproveitei as variáveis ctx e cancel já criadas com o objetivo de setar um novo context time para o banco de dados e usei o execContext para colocar um context especifico, nesse caso, também alterei o context timeout do client para 300 conforme o exercicio.

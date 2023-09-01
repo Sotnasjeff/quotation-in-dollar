@@ -44,7 +44,7 @@ func main() {
 
 // "You See, Companies, They Come And Go. But Talent...Talent Is Forever" - Homelander
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Millisecond*500)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Millisecond*200)
 	defer cancel()
 	db, err := databaseConnection()
 	if err != nil {
@@ -59,9 +59,11 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalf("Error in making request to quotation api %v", err)
 	}
+	ctx, cancel = context.WithTimeout(context.Background(), time.Millisecond*10)
+	defer cancel()
 	err = insertIntoDatabase(ctx, db, req)
 	if err != nil {
-		log.Fatalf("Error in inserting request to databse %v", err)
+		log.Fatalf("Error in inserting request to database %v", err)
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
@@ -114,7 +116,7 @@ func insertIntoDatabase(ctx context.Context, db *sql.DB, quotation *QuotationRes
 		return err
 	}
 	defer stmt.Close()
-	_, err = stmt.Exec(
+	_, err = stmt.ExecContext(ctx,
 		quotation.USDBRL.Code,
 		quotation.USDBRL.Codein,
 		quotation.USDBRL.Name,
@@ -132,11 +134,6 @@ func insertIntoDatabase(ctx context.Context, db *sql.DB, quotation *QuotationRes
 		return err
 	}
 
-	select {
-	case <-ctx.Done():
-		log.Fatalf("Timeout for inserting db")
-		return err
-	case <-time.After(10 * time.Nanosecond):
-		return nil
-	}
+	return nil
+
 }
